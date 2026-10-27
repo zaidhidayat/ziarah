@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ziarah Wisata Kampung Tuksari</title>
+    <!-- Memuat Tailwind CSS untuk styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            /* Latar belakang biru bergradien */
+            background: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%);
+            background-attachment: fixed;
+        }
+        
+        .box-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        
+        .expanded {
+            grid-column: span 2;
+        }
+        
+        /* Custom scrollbar untuk tabel */
+        .custom-scroll::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex justify-center py-8 font-sans text-gray-800">
+
+    <!-- Container Utama -->
+    <div class="w-[95%] max-w-md flex flex-col gap-5">
+
+        <!-- Kotak Atas (Banner Utama) -->
+        <div class="bg-gradient-to-br from-yellow-300 to-orange-400 p-8 rounded-3xl shadow-xl border border-yellow-200 cursor-pointer" onclick="togglePelaksanaan()">
+            <h1 class="text-3xl font-bold text-center text-white drop-shadow-md mb-5 leading-tight">
+                Ziarah Wisata<br>Kampung Tuksari
+            </h1>
+            
+            <!-- Info Pelaksanaan (Singkat) -->
+            <div class="bg-white/30 backdrop-blur-sm p-4 rounded-2xl flex items-start justify-between border border-white/40 shadow-inner hover:bg-white/40 transition">
+                <div>
+                    <div class="text-sm font-bold text-orange-900 mb-1">Pelaksanaan</div>
+                    <div class="text-sm text-gray-800 font-medium leading-relaxed">
+                        Hari Sabtu - Minggu<br>
+                        11 - 12 November 2026<br>
+                        Berangkat: Sabtu, 22.00 WIB
+                    </div>
+                </div>
+                <div class="bg-white/50 w-8 h-8 rounded-full flex items-center justify-center text-orange-700">
+                    <i id="pelaksanaan-icon" class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                </div>
+            </div>
+
+            <!-- Info Pelaksanaan (Detail Tersembunyi) -->
+            <div id="pelaksanaan-detail" class="hidden mt-3 bg-white/40 backdrop-blur-sm p-4 rounded-2xl border border-white/50 text-sm font-semibold text-orange-900 shadow-inner">
+                <ul class="list-disc pl-4 space-y-1">
+                    <li>Setiap peserta iuran <span class="text-red-700 font-bold text-base">Rp 125.000</span></li>
+                    <li>Membawa makanan/bekal sendiri-sendiri</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 4 Kotak Bawah (Menu) -->
+        <div class="grid grid-cols-2 gap-4" id="menu-grid">
+            
+            <!-- Kotak 1: Tujuan -->
+            <div id="box-tujuan" class="bg-white p-5 rounded-[2rem] shadow-lg flex flex-col gap-3 cursor-pointer hover:shadow-xl box-transition" onclick="toggleBox('box-tujuan', 'content-tujuan')">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-gray-700 text-lg">Tujuan</span>
+                    <div class="text-blue-500 bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                </div>
+                <div id="content-tujuan" class="hidden mt-2 pt-3 border-t border-gray-100 text-sm text-gray-600">
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center gap-3"><i class="fa-solid fa-location-dot text-red-500 text-lg"></i> <span class="font-medium">Payaman</span></div>
+                        <div class="flex items-center gap-3"><i class="fa-solid fa-location-dot text-red-500 text-lg"></i> <span class="font-medium">Gunung Pring Watucongol</span></div>
+                        <div class="flex items-center gap-3"><i class="fa-solid fa-location-dot text-red-500 text-lg"></i> <span class="font-medium">Liburan Pantai Gunung Kidul</span></div>
+                        <div class="flex items-center gap-3"><i class="fa-solid fa-location-dot text-red-500 text-lg"></i> <span class="font-medium">Malioboro</span></div>
+                        <div class="flex items-center gap-3"><i class="fa-solid fa-bag-shopping text-orange-500 text-lg"></i> <span class="font-medium">Mampir ke Toko Oleh-oleh</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kotak 2: Peserta (Data CSV) -->
+            <div id="box-peserta" class="bg-white p-5 rounded-[2rem] shadow-lg flex flex-col gap-3 cursor-pointer hover:shadow-xl box-transition" onclick="toggleBox('box-peserta', 'content-peserta')">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-gray-700 text-lg">Peserta</span>
+                    <div class="text-green-500 bg-green-50 w-10 h-10 rounded-full flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                </div>
+                <div id="content-peserta" class="hidden mt-2 pt-3 border-t border-gray-100">
+                    <!-- Tempat render tabel CSV -->
+                    <div id="table-peserta" class="w-full max-h-[400px] overflow-auto custom-scroll rounded-xl border border-gray-100">
+                        <div class="text-center text-gray-400 py-10 text-sm"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Memuat data peserta...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kotak 3: Susunan Jok (Gambar) -->
+            <div id="box-jok" class="bg-white p-5 rounded-[2rem] shadow-lg flex flex-col gap-3 cursor-pointer hover:shadow-xl box-transition" onclick="toggleBox('box-jok', 'content-jok')">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-gray-700 text-lg">Susunan Jok</span>
+                    <div class="text-purple-500 bg-purple-50 w-10 h-10 rounded-full flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-bus"></i>
+                    </div>
+                </div>
+                <!-- Menampilkan gambar jok bus -->
+                <div id="content-jok" class="hidden mt-2 pt-3 border-t border-gray-100">
+                    <img src="711062.jpg" alt="Denah Susunan Jok Bus" class="w-full h-auto rounded-xl border border-gray-200 shadow-sm">
+                </div>
+            </div>
+
+            <!-- Kotak 4: Keuangan (Data CSV) -->
+            <div id="box-keuangan" class="bg-white p-5 rounded-[2rem] shadow-lg flex flex-col gap-3 cursor-pointer hover:shadow-xl box-transition" onclick="toggleBox('box-keuangan', 'content-keuangan')">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-gray-700 text-lg">Keuangan</span>
+                    <div class="text-orange-500 bg-orange-50 w-10 h-10 rounded-full flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                </div>
+                <div id="content-keuangan" class="hidden mt-2 pt-3 border-t border-gray-100">
+                    <!-- Tempat render tabel CSV -->
+                    <div id="table-keuangan" class="w-full max-h-[400px] overflow-auto custom-scroll rounded-xl border border-gray-100">
+                        <div class="text-center text-gray-400 py-10 text-sm"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Memuat data keuangan...</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Script Interaksi & Fetch CSV -->
+    <script>
+        let isPesertaLoaded = false;
+        let isKeuanganLoaded = false;
+
+        // URL Data CSV Google Sheets
+        const urlPeserta = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfkZ-WN8mKFuLDZUVqReU_JLTuOQCxvYbYfzleRqe18bCHReILUBS6s097JIg1GlQ2a3dQZW8w3V0x/pub?gid=0&single=true&output=csv";
+        const urlKeuangan = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSfkZ-WN8mKFuLDZUVqReU_JLTuOQCxvYbYfzleRqe18bCHReILUBS6s097JIg1GlQ2a3dQZW8w3V0x/pub?gid=891515384&single=true&output=csv";
+
+        // Fungsi Buka/Tutup Info Pelaksanaan
+        function togglePelaksanaan() {
+            const detail = document.getElementById('pelaksanaan-detail');
+            const icon = document.getElementById('pelaksanaan-icon');
+            
+            if (detail.classList.contains('hidden')) {
+                detail.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                detail.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // Fungsi Buka/Tutup Kotak Menu Utama
+        function toggleBox(boxId, contentId) {
+            const box = document.getElementById(boxId);
+            const content = document.getElementById(contentId);
+            const allBoxes = ['box-tujuan', 'box-peserta', 'box-jok', 'box-keuangan'];
+            const allContents = ['content-tujuan', 'content-peserta', 'content-jok', 'content-keuangan'];
+
+            // Jika kotak sudah terbuka, maka tutup
+            if (box.classList.contains('expanded')) {
+                box.classList.remove('expanded');
+                content.classList.add('hidden');
+            } else {
+                // Tutup kotak lain yang sedang terbuka
+                allBoxes.forEach((id, index) => {
+                    document.getElementById(id).classList.remove('expanded');
+                    document.getElementById(allContents[index]).classList.add('hidden');
+                });
+                
+                // Buka kotak yang diklik
+                box.classList.add('expanded');
+                content.classList.remove('hidden');
+
+                // Muat data CSV hanya jika kotak yang diklik adalah Peserta/Keuangan dan data belum termuat
+                if (boxId === 'box-peserta' && !isPesertaLoaded) {
+                    loadCSV(urlPeserta, 'table-peserta');
+                    isPesertaLoaded = true;
+                }
+                if (boxId === 'box-keuangan' && !isKeuanganLoaded) {
+                    loadCSV(urlKeuangan, 'table-keuangan');
+                    isKeuanganLoaded = true;
+                }
+            }
+        }
+
+        // Fungsi untuk mengambil data CSV dan mengubahnya menjadi Tabel HTML
+        async function loadCSV(url, containerId) {
+            try {
+                const response = await fetch(url);
+                const csvText = await response.text();
+                
+                // Memisahkan baris teks
+                const rows = csvText.split(/\r?\n/).filter(row => row.trim() !== '');
+                
+                // Membangun tabel
+                let tableHTML = '<table class="w-full text-sm text-left text-gray-600 whitespace-nowrap"><thead class="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0">';
+                
+                rows.forEach((row, index) => {
+                    // Memisahkan kolom dengan mengabaikan koma di dalam tanda kutip
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(col => col.replace(/^"|"$/g, '').trim());
+                    
+                    if (index === 0) {
+                        // Membuat Header (Baris Pertama)
+                        tableHTML += '<tr>';
+                        cols.forEach(col => { tableHTML += `<th scope="col" class="px-4 py-3 font-semibold">${col}</th>`; });
+                        tableHTML += '</tr></thead><tbody class="divide-y divide-gray-100">';
+                    } else {
+                        // Membuat Isi Baris Tabel
+                        tableHTML += '<tr class="bg-white hover:bg-gray-50 transition">';
+                        cols.forEach(col => { tableHTML += `<td class="px-4 py-2">${col}</td>`; });
+                        tableHTML += '</tr>';
+                    }
+                });
+                
+                tableHTML += '</tbody></table>';
+                
+                // Memasukkan tabel ke dalam container
+                document.getElementById(containerId).innerHTML = tableHTML;
+
+            } catch (error) {
+                // Pesan error jika gagal memuat data
+                document.getElementById(containerId).innerHTML = '<div class="text-red-500 text-center p-4 text-sm">Gagal memuat data dari Spreadsheet. Pastikan koneksi internet stabil.</div>';
+            }
+        }
+    </script>
+</body>
+</html>
